@@ -28,16 +28,18 @@
         <h3 class="text-muted">slacky</h3>
       </div>
 
-      <p>How slack is your organization? Just enter your Slack API token to find out.</p>
-      <p>Note: You can get yours <a href="https://api.slack.com/web#auth" target="_blank">here</a> (scroll down to the bottom of the page)</p>
+      <div id="intro">
+        <p>How slack is your organization? Just enter your Slack API token to find out.</p>
+        <p>Note: You can get yours <a href="https://api.slack.com/web#auth" target="_blank">here</a> (scroll down to the bottom of the page)</p>
 
-      <form id="form">
-        <div class="form-group">
-          <label for="token">Slack API token</label>
-          <input type="text" class="form-control" id="token" placeholder="e.g. xoxt-23984754863-2348975623103">
-        </div>
-        <button id="button" class="btn btn-default">Go</button>
-      </form>
+        <form id="form">
+          <div class="form-group">
+            <label for="token">Slack API token</label>
+            <input type="text" class="form-control" id="token" placeholder="e.g. xoxt-23984754863-2348975623103">
+          </div>
+          <button id="button" class="btn btn-default">Go</button>
+        </form>
+      </div>
 
       <style>
         #chart svg {

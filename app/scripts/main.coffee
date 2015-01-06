@@ -1,5 +1,6 @@
 roundTimestamp = (timestamp) ->
-  ts = new Date(parseInt(timestamp) * 1000)
+  ts = new Date(timestamp.substring(0, 10) * 1000)
+  ts.setMilliseconds 0
   ts.setSeconds 0
   ts.setMinutes 0
   ts.setHours 0
@@ -29,14 +30,14 @@ getSlackData = (slackAPIToken) ->
         if (!channelHistory.messages.length)
           return
 
-        startTimestamp = roundTimestamp(channelHistory.messages[channelHistory.messages.length - 1].ts)
-        endTimestamp = roundTimestamp(channelHistory.messages[0].ts)
+        startDate = new Date(roundTimestamp(channelHistory.messages[channelHistory.messages.length - 1].ts))
+        endDate = new Date(roundTimestamp(channelHistory.messages[0].ts))
 
         messages = {}
 
         for message in channelHistory.messages
-          timestamp = roundTimestamp(message.ts);
-          
+          timestamp = roundTimestamp(message.ts)
+
           if (messages[timestamp])
             messages[timestamp]++
           else
@@ -44,15 +45,19 @@ getSlackData = (slackAPIToken) ->
 
         values = []
 
-        for ts in [startTimestamp..endTimestamp] by 86400000
+        date = startDate
+        while date < endDate
+          ts = date.getTime()
           values.push
             x: ts
             y: messages[ts] || 0
+          date.setDate(date.getDate() + 1)
 
         channels.push
           values: values
           key: channel.name
           area: true
+          disabled: true
 
     for channel in channelList.channels
       deferreds.push(processChannel(channel))
@@ -64,4 +69,4 @@ $('#button').click (e) ->
   token = $('#token').val().trim()
   return if !token
   getSlackData token
-  $('#form').fadeOut(1000)
+  $('#intro').fadeOut(1000)
